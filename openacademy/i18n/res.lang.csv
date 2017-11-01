@@ -1,0 +1,2 @@
+"id","iso_code","active","decimal_point","name","code","direction","translatable","write_uid/id","write_date","thousands_sep","create_uid/id","create_date","time_format","date_format","grouping"
+"base.lang_es","es","True",",","Spanish / Español","es_ES","Слева-Направо","True","base.user_root","2017-10-31 11:39:06",".","base.user_root","2017-10-29 20:06:31","%H:%M:%S","%d/%m/%Y","[3,0]"
