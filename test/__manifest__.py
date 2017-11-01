@@ -24,7 +24,6 @@
         'views/menu_test.xml',
         'views/res_partner.xml',
         'views/test.xml',
-        'views/templates.xml',
     ],
 
 }

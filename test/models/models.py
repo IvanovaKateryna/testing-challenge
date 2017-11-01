@@ -15,6 +15,9 @@ class Tests(models.Model):
 class TestSession(models.Model):
     _name = 'test.test_session'
     _description = 'Test Session'
+    _rec_name = 'test'
+
+
 
     test = fields.Many2one('test.test', 'Test', requiered=True,
                            ondelete='cascade')
