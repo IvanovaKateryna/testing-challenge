@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from odoo import models, fields, api
+
 
 class Tests(models.Model):
     _name = 'test.test'
@@ -17,8 +16,6 @@ class TestSession(models.Model):
     _description = 'Test Session'
     _rec_name = 'test'
 
-
-
     test = fields.Many2one('test.test', 'Test', requiered=True,
                            ondelete='cascade')
     start_date = fields.Date('Start Date', required=True)
@@ -31,7 +28,6 @@ class TestSession(models.Model):
     def _compute_duration(self):
         for r in self:
             if not (r.start_date and r.end_date):
-                r.duration == 0
                 continue
             start = fields.Datetime.from_string(r.start_date)
             end = fields.Datetime.from_string(r.end_date)
@@ -45,8 +41,9 @@ class TestResPartner(models.Model):
                                store=False, compute='_compute_is_tester',)
 
     tests_expected = fields.Integer('Tests Expected Within 30 days',
-                                     readonly=True, store=False,
-                                     compute='_compute_tests_expected',)
+                                    readonly=True,
+                                    store=False,
+                                    compute='_compute_tests_expected')
 
     @api.one
     def _compute_is_tester(self):
@@ -68,4 +65,3 @@ class TestResPartner(models.Model):
                '''
         self.env.cr.execute(query, [self.id, '1 month'])
         self.tests_expected = self.env.cr.fetchone()[0]
-
