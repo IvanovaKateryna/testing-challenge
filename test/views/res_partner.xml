@@ -2,7 +2,7 @@
 <odoo>
     <!-- Partner Form -->
     <record id="view_partner_form_test" model="ir.ui.view">
-        <field name="name">partner</field>
+        <field name="name">partner test form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
@@ -16,29 +16,21 @@
         </field>
     </record>
 
-    <!-- Partner Tree -->
-    <record id="view_partner_tree_test" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_tree"/>
-        <field name="arch" type="xml">
-            <tree string="Contacts">
-                <field name="is_tester"/>
-                <field name="tests_expected"/>
-            </tree>
-        </field>
-    </record>
-
-    <!-- Partner Filter -->
-    <record id="view_res_partner_filter_test" model="ir.ui.view">
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_filter"/>
-        <field name="arch" type="xml">
-            <search string="Search Partner">
-                <separator/>
-                <!-- @todo: filter doesn't work because 'tests_expected' is a computed field and it's value is not stored in the 'res_partners' table. -->
-                <filter string="Expected tests within 30 days" name="tests_expected"
-                        domain="[('tests_expected','!=',0)]"/>
-            </search>
-        </field>
+    <!-- Partner Filter-->
+    <record model="ir.ui.view" id="partner_search_and_filter_test">
+            <field name="name">partner.search.test</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <filter name="name" string="Partner in the nearest 30 DAYS"
+                            domain="[
+                                '&amp;',
+                                ('tests_expected.end_date', '&gt;=', context_today().strftime('%m-%d-%Y')),
+                                ('tests_expected.end_date', '&lt;=', (context_today() + datetime.timedelta(30)).strftime('%m-%d-%Y'))
+                                ]"/>
+                </search>
+            </field>
     </record>
 </odoo>

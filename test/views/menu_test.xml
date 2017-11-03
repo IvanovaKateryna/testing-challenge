@@ -1,13 +1,13 @@
 <odoo>
     <data>
-        <!-- actions opening views on models -->
+        <!-- actions opening views test on models -->
         <record model="ir.actions.act_window" id="test.test_action_window">
             <field name="name">test window</field>
             <field name="res_model">test.test</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- actions opening views on models -->
+        <!-- actions opening views test_session on models -->
         <record model="ir.actions.act_window" id="test.test_session_action_window">
             <field name="name">test window</field>
             <field name="res_model">test.test_session</field>
