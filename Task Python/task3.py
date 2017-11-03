@@ -1,5 +1,5 @@
-xline = [input('Строка Х   ')for _ in range(int(input('Введите количество элементов Х  ')))]
-yline = [input('Строка Y   ')for _ in range(int(input('Введите количество элементов Y  ')))]
+xline = [raw_input('Line x   ')for _ in range(int(raw_input('Write number of x  ')))]
+yline = [raw_input('Line y   ')for _ in range(int(raw_input('Write number of y  ')))]
 
 
 def numberyinx():
@@ -8,7 +8,7 @@ def numberyinx():
         for j in xline:
             if i == j:
                 sum += 1
-        print('Количество элемента ', i, 'в массиве Х = ', sum)
+        print('Number of element ', i, 'in x = ', sum)
 
 
 numberyinx()

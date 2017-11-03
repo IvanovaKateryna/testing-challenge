@@ -29,7 +29,6 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
-        'views/test_session.xml',
         'views/openacademy.xml',
         'views/partner.xml',
         'views/session_workflow.xml',
