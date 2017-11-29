@@ -38,6 +38,41 @@
         </record>
 
 
+        <record model="ir.ui.view" id="customer_list">
+            <field name="name">customer.list</field>
+            <field name="model">shop.customer</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="name"/>
+                        <field name="discount"/>
+                        <field name="currency"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="customer_form_view">
+            <field name="name">customer.form</field>
+            <field name="model">shop.customer</field>
+            <field name="arch" type="xml">
+                <form string="Customer Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="discount"/>
+                            <field name="currency"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="customer_list_action">
+            <field name="name">Customer</field>
+            <field name="res_model">shop.customer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <menuitem id="main_shop_menu" name="Shop"/>
         <!-- A first level in the left side menu is needed
              before using action= attribute -->
@@ -45,5 +80,7 @@
                   parent="main_shop_menu"/>
         <menuitem id="product_menu" name="Product" parent="shop_menu"
                   action="product_list_action"/>
+        <menuitem id="customer_menu" name="Customer" parent="shop_menu"
+                  action="customer_list_action"/>
     </data>
 </odoo>
