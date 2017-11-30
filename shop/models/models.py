@@ -11,13 +11,29 @@ class Product(models.Model):
     price = fields.Float(digits=(6, 1), help="Price in dollars", required=True)
     weight = fields.Float(digits=(6, 1), help="Weight in kg", required=True)
 
+
 class Customer(models.Model):
     _name = 'shop.customer'
     _description = 'Customer'
 
     name = fields.Char(string="Customer", required=True)
-    discount = fields.Integer('Discount', required=True)
-    currency = fields.Char(string='Currency', required=True)
+    discount_id = fields.Many2one('shop.discount',
+        ondelete='cascade', string="Discount", required=True)
+    currency_id = fields.Many2one('shop.currency',
+        ondelete='cascade', string="Currency", required=True)
+
+
+class Currency(models.Model):
+    _name = 'shop.currency'
+    _description = 'Currency'
+
+    name = fields.Char(string="Currency",readonly=True, required=True)
+
+
+class Discount(models.Model):
+    _name = 'shop.discount'
+
+    name = fields.Char(string="Discount",readonly=True, required=True)
 # class shop(models.Model):
 #     _name = 'shop.shop'
 

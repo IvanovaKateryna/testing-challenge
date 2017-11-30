@@ -44,8 +44,8 @@
             <field name="arch" type="xml">
                 <tree>
                         <field name="name"/>
-                        <field name="discount"/>
-                        <field name="currency"/>
+                        <field name="discount_id"/>
+                        <field name="currency_id"/>
                 </tree>
             </field>
         </record>
@@ -58,8 +58,8 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="discount"/>
-                            <field name="currency"/>
+                            <field name="discount_id"/>
+                            <field name="currency_id"/>
                         </group>
                     </sheet>
                 </form>
@@ -73,11 +73,44 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!-- Records of CURRENCY -->
+        <record model="shop.currency" id="uah">
+            <field name="name">UAH</field>
+        </record>
+        <record model="shop.currency" id="rub">
+            <field name="name">RUB</field>
+        </record>
+        <record model="shop.currency" id="usd">
+            <field name="name">USD</field>
+        </record>
+        <record model="shop.currency" id="eur">
+            <field name="name">EUR</field>
+        </record>
+        <record model="shop.currency" id="gbp">
+            <field name="name">GBP</field>
+        </record>
+        <record model="shop.currency" id="chf">
+            <field name="name">CHF</field>
+        </record>
+
+
+        <!-- Records of DISCOUNT -->
+        <record model="shop.discount" id="dis5">
+            <field name="name">5%</field>
+        </record>
+        <record model="shop.discount" id="dis10">
+            <field name="name">10%</field>
+        </record>
+        <record model="shop.discount" id="dis20">
+            <field name="name">20%</field>
+        </record>
+
+        <!-- Structure of the left side menu -->
         <menuitem id="main_shop_menu" name="Shop"/>
-        <!-- A first level in the left side menu is needed
-             before using action= attribute -->
+        <!-- A first level in the left side -->
         <menuitem id="shop_menu" name="Shop menu"
                   parent="main_shop_menu"/>
+        <!-- A second level in the left side -->
         <menuitem id="product_menu" name="Product" parent="shop_menu"
                   action="product_list_action"/>
         <menuitem id="customer_menu" name="Customer" parent="shop_menu"
