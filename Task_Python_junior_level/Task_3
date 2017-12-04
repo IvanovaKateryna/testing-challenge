@@ -1,0 +1,21 @@
+---Create new table---
+CREATE TABLE general
+(
+  id                INTEGER PRIMARY KEY,
+  name              CHAR(20)  NOT NULL ,
+  email             CHAR(30)  NOT NULL ,
+  date_of_subscription DATE  NOT NULL
+);
+
+--- Fill in the table "general"---
+INSERT INTO general(id, name, email, date_of_subscription)
+VALUES('1', 'Kateryna', 'kis.iv333@gmail.com', '2017-12-03');
+INSERT INTO general(id, name, email, date_of_subscription)
+VALUES('2', 'Bohdan', 'bohdan@gmail.com', '2017-12-01');
+INSERT INTO general(id, name, email, date_of_subscription)
+VALUES('3', 'Ann', 'ann@gmail.com', '2017-11-13');
+
+---Query of subscribers of channel "general" which subscribed to the channel this month---
+SELECT email, name, date_of_subscription
+FROM general
+WHERE EXTRACT(MONTH FROM date_of_subscription) = EXTRACT(MONTH FROM now());
