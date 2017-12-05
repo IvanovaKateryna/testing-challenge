@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+#   By Python 2.7
+
 import re
 import datetime
 
 
 in_file = "IN.txt"
-out_file = "OUT.txt"
 data_file = []
-
+result_dates = []
 
 days = {
     '01': 'перше',
@@ -95,28 +96,29 @@ years = {
     '2012': 'дві тисячі дванадцятого року',
     '12': 'дві тисячі дванадцятого року',
     '2014': 'дві тисячі чотирнадцятого року',
-    '14':'дві тисячі чотирнадцятого року',
-    '2016':'дві тисячі шістнадцятого року',
-    '16':'дві тисячі шістнадцятого року'
+    '14': 'дві тисячі чотирнадцятого року',
+    '2016': 'дві тисячі шістнадцятого року',
+    '16': 'дві тисячі шістнадцятого року'
 }
 
 
 date_format = ['%d-%m-%Y', '%d.%m.%Y', '%d %m %Y', '%d.%m.%y', '%d %m %y']
 
 
- # Get the list from file
+#   Get the list from file
 with open(in_file, 'r') as read_file:
     for line in read_file:
         data_file.append(line.strip('\n\r'))
 
-
+#   Find all dates in each line
 for i in xrange(len(data_file)):
             date_line = re.findall('\d{2}-\d{2}-\d{4}|\d{2}.\d{2}.\d{4}|'
                                    '\d{2}.\d{2}.\d{2}|\d{2} \d{2} \d{2}|'
                                    '\d{2} \d{2} \d{4}', str(data_file))
 
 print(date_line)
-result_dates = []
+
+#   Split date to 3 elements: day, month, year
 for item in xrange(len(date_line)):
     if '.' in date_line[item]:
         date_line[item] = date_line[item].split('.')
@@ -128,23 +130,27 @@ for item in xrange(len(date_line)):
     month = date_line[item][1]
     year = date_line[item][2]
 
+#   Change the number to name of the date (ua)
     for key in days.keys():
         if key == day:
             day = days[key] + " "
         else:
             pass
 
+# Change the number to name of the month (ua)
     for key in months.keys():
         if key == month:
             month = months[key] + " "
         else:
             pass
 
+# Change the number to name of the year (ua)
     for key in years.keys():
         if key == year:
             year = years[key] + " "
         else:
             pass
-    date_line[item] = day+month+year
+
+    date_line[item] = day + month + year
     print(date_line[item])
 
