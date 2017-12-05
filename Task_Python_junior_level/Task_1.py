@@ -19,17 +19,23 @@ class Product:
                ' Weight(kg): {}.'.format(self.name, self.cost_price,
                                          self.price, self.weight)
 
-# Registration form  of Products
     def registration(self):
+        """
+        Registration form  of Products
+        :return: full registration of Product
+        """
         self.name = input("Enter the name of Product: ")
         self.cost_price = float(input('Enter the cost price of product in UAH: '))
         self.price = float(input('Enter the price of product in UAH: '))
         self.weight = float(input('Enter the weight of product in kg: '))
         return 'Successful registration of product!'
 
-
-# Personal price for customer considering currency
     def price_of_customer(self, customer):
+        """
+        Personal price for customer considering currency
+        :param customer: from class Customer
+        :return: price  with coefficient of currency
+        """
         price_customer = currency[customer.currency]
         return self.price / price_customer
 
@@ -38,6 +44,11 @@ class Product:
 class Customer:
 
     def __init__(self, name, discount, currency):
+        """
+        :param name: name of customer
+        :param discount: personal discount of customer
+        :param currency: customer can choose currency from dict(currency)
+        """
         self.name = name
         self.discount = discount
         self.currency = currency
@@ -49,17 +60,27 @@ class Customer:
             self.currency
         )
 
-# Registration form of Customers
     def registration(self):
+        """
+        Registration form of Customers
+        :return: Success registration of Customers
+        """
         self.name = input('Enter the name of Customer:  ')
         self.discount = int(input('Enter the percent(%) of discount '
                                   'in the range of 0 to 100%: '))
         self.currency = input('Enter the currency(UAH, RUB, USD, EUR, GBP): ')
+        return 'Successful registration of Customer'
 
 
 # Basic class for Check class and derivative class for Product class
 class Buy(Product):
+
     def __init__(self, product, customer, quantity):
+        """
+        :param product: from class Product
+        :param customer: from class Customer
+        :param quantity: number of product
+        """
         self.product = product
         self.customer = customer
         self.quantity = quantity
@@ -71,19 +92,21 @@ class Buy(Product):
                'The full weight: {}.'.format(self.quantity, self.price,
                                              self.full_price, self.full_weight)
 
-# The function that considers full price of bought Product
     def full_price(self):
+        """The function that considers full price of bought Product"""
         return (100-self.customer.discount)/100 * \
                (self.quantity * self.product.price_of_customer(self.customer))
 
-# The function that considers full weight of bought Product
     def full_weight(self):
+        """The function that considers full weight of bought Product"""
         return self.quantity * self.product.weight
 
 
 # Derivative class for Buy class
 class Check(Buy):
+
     def __init__(self, buy):
+        """:param buy: from class Buy """
         self.buy = buy
 
     def __str__(self):
@@ -93,29 +116,34 @@ class Check(Buy):
                                                        self.buy, self.buy.customer)
 
 
-# The function registration the new product
 def registration_product():
+    """The function registration the new product"""
     new_pr = Product(0, 0, 0, 0)
     new_pr.registration()
     return new_pr
 
 
-# The function registration the new customer
 def registration_customer():
+    """The function registration the new customer"""
     new_cust = Customer(0, 0, 0)
     new_cust.registration()
     return new_cust
 
 
-# The function reads quantity of items that Customer would like to buy
 def buy_product(customer, product):
+    """
+    The function reads quantity of items that Customer would like to buy
+    :param customer: from class Customer
+    :param product: from class Product
+    :return: number of items
+    """
     quantity = int(input('How much items would you like to buy: '))
     item = Buy(product, customer, quantity)
     return item
 
 
-# The function displays full information about Product and Buy
 def checkin(item):
+    """The function displays full information about Product and Buy"""
     check = Check(item)
     return check
 
@@ -128,7 +156,7 @@ while True:
           'Enter 4 to see the total information about buying.')
 
     case = int(input('Enter the number of menu(1-4):   '))
-# Value of cases
+#   Value of cases
     if case == 1:
         new_pr = registration_product()
         print('New Product: ', new_pr)
@@ -144,9 +172,9 @@ while True:
         print('The list of Customers\n')
         for cs in xrange(len(customers)):
             print(cs, '.', customers[cs])
-        quantity_prod = int(input('Enter number of Product LIST: '))
-        quantity_cust = int(input('Enter number of Customer LIST: '))
-        result = buy_product(customers[quantity_cust], products[quantity_prod])
+        number_prod = int(input('Enter number of Product LIST: '))
+        number_cust = int(input('Enter number of Customer LIST: '))
+        result = buy_product(customers[number_cust], products[number_prod])
         print('\n', result, '\n')
     elif case == 4:
             print(checkin(result))
