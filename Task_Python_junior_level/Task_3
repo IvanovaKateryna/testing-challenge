@@ -1,21 +1,12 @@
----Create new table---
-CREATE TABLE general
-(
-  id                INTEGER PRIMARY KEY,
-  name              CHAR(20)  NOT NULL ,
-  email             CHAR(30)  NOT NULL ,
-  date_of_subscription DATE  NOT NULL
-);
+--- The query of followers which subscribes to channel in this month
+SELECT partner_id, name, email, mail_channel_partner.write_date AS follow_date
+ FROM res_partner LEFT JOIN mail_channel_partner ON res_partner.id=mail_channel_partner.partner_id
+  WHERE EXTRACT(MONTH FROM mail_channel_partner.write_date)=EXTRACT(MONTH FROM now());
 
---- Fill in the table "general"---
-INSERT INTO general(id, name, email, date_of_subscription)
-VALUES('1', 'Kateryna', 'kis.iv333@gmail.com', '2017-12-03');
-INSERT INTO general(id, name, email, date_of_subscription)
-VALUES('2', 'Bohdan', 'bohdan@gmail.com', '2017-12-01');
-INSERT INTO general(id, name, email, date_of_subscription)
-VALUES('3', 'Ann', 'ann@gmail.com', '2017-11-13');
+---Example result after query from PSQL Odoo(module "Discuss" in Odoo to create a channel (general))
 
----Query of subscribers of channel "general" which subscribed to the channel this month---
-SELECT email, name, date_of_subscription
-FROM general
-WHERE EXTRACT(MONTH FROM date_of_subscription) = EXTRACT(MONTH FROM now());
+---[ RECORD 1 ]---------------------------
+---partner_id  | 7
+---name        | kat
+---email       | k@mail.ru
+---follow_date | 2017-12-05 20:06:18.446307
