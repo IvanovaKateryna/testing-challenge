@@ -6,8 +6,10 @@ import datetime
 
 
 in_file = "IN.txt"
-data_file = []
+out_file = "OUT.txt"
+date_file = []
 result_dates = []
+date_form = []
 
 days = {
     '01': 'перше',
@@ -93,64 +95,160 @@ months = {
 }
 
 years = {
+    '2011': 'дві тисячі одинадцятого року',
+    '11': 'дві тисячі одинадцятого року',
     '2012': 'дві тисячі дванадцятого року',
     '12': 'дві тисячі дванадцятого року',
+    '2013': 'дві тисячі тринадцятого року',
+    '13': 'дві тисячі тринадцятого року',
     '2014': 'дві тисячі чотирнадцятого року',
     '14': 'дві тисячі чотирнадцятого року',
+    '2015': 'дві тисячі п\'ятнадцятого року',
+    '15': 'дві тисячі п\'ятнадцятого року',
     '2016': 'дві тисячі шістнадцятого року',
-    '16': 'дві тисячі шістнадцятого року'
+    '16': 'дві тисячі шістнадцятого року',
+    '2017': 'дві тисячі сімнадцятого року',
+    '17': 'дві тисячі сімнадцятого року',
+    '2018': 'дві тисячі вісімнадцятого року',
+    '18': 'дві тисячі вісімнадцятого року'
 }
 
 
-date_format = ['%d-%m-%Y', '%d.%m.%Y', '%d %m %Y', '%d.%m.%y', '%d %m %y']
-
-
-#   Get the list from file
+#  Get the list from file
+#  date_file - lines with dates, not in sentence of text
+#  date_form - lines with dates in sentences.
 with open(in_file, 'r') as read_file:
     for line in read_file:
-        data_file.append(line.strip('\n\r'))
-
-#   Find all dates in each line
-for i in xrange(len(data_file)):
-            date_line = re.findall('\d{2}-\d{2}-\d{4}|\d{2}.\d{2}.\d{4}|'
-                                   '\d{2}.\d{2}.\d{2}|\d{2} \d{2} \d{2}|'
-                                   '\d{2} \d{2} \d{4}', str(data_file))
-
-print(date_line)
-
-#   Split date to 3 elements: day, month, year
-for item in xrange(len(date_line)):
-    if '.' in date_line[item]:
-        date_line[item] = date_line[item].split('.')
-    elif '-' in date_line[item]:
-        date_line[item] = date_line[item].split('-')
-    else:
-        date_line[item] = date_line[item].split(' ')
-    day = date_line[item][0]
-    month = date_line[item][1]
-    year = date_line[item][2]
-
-#   Change the number to name of the date (ua)
-    for key in days.keys():
-        if key == day:
-            day = days[key] + " "
+        if len(re.findall('\d{2,4} \D', line)) == 0 \
+                and len(re.findall('\D \d{2,4}', line)) == 0:
+                date_file.append(line.strip('\n\r'))
         else:
-            pass
+            date_form.append(line.strip('\n\r'))
 
-# Change the number to name of the month (ua)
-    for key in months.keys():
-        if key == month:
-            month = months[key] + " "
+
+def findall_date(f_date):
+    """
+    The function find all dates
+    :param f_date: the list of lines from file
+    :return: find_date - the list of dates with format %d-%m-%Y, %d.%m.%Y, %d %m %Y, %d.%m.%y, %d %m %y
+    """
+    for i in xrange(len(f_date)):
+        find_date = re.findall('\d{2}-\d{2}-\d{4}|\d{2}.\d{2}.\d{4}|'
+                               '\d{2}.\d{2}.\d{2}|\d{2} \d{2} \d{2}|'
+                               '\d{2} \d{2} \d{4}', str(f_date))
+    return find_date
+
+
+def split_date(dmy):
+    """
+    The function split dates for 3 elements(dmy - day, month, year)
+    :param dmy: list of dates(find_date)
+    :return: the list of dmy in list of dates
+    """
+    for i in xrange(len(dmy)):
+        if '.' in dmy[i]:
+            dmy[i] = dmy[i].split('.')
+        elif '-' in dmy[i]:
+            dmy[i] = dmy[i].split('-')
         else:
-            pass
+            dmy[i] = dmy[i].split(' ')
+    return dmy
 
-# Change the number to name of the year (ua)
-    for key in years.keys():
-        if key == year:
-            year = years[key] + " "
-        else:
-            pass
 
-    date_line[item] = day + month + year
-    print(date_line[item])
+def get_day(dmy):
+    """
+    The function get the day from number to ukrainian word(Nominative case)
+    :param dmy: the list of dmy
+    :return: day in dmy(ua) - 0 element
+    """
+    for i in xrange(len(dmy)):
+        day = dmy[i][0]
+        for key in days.keys():
+            if key == day:
+                day = days[key] + " "
+            else:
+                pass
+        dmy[i][0] = day
+    return dmy
 
+
+def get_day_form(dmy):
+    """
+    The function get the day from number to ukrainian word(Genitive)
+    :param dmy: the list of dmy
+    :return: day in dmy(ua)
+    """
+    for i in xrange(len(dmy)):
+        day = dmy[i][0]
+        for key in days.keys():
+            if key == day:
+                day = days_form[key] + " "
+            else:
+                pass
+        dmy[i][0] = day
+    return dmy
+
+
+def get_month(dmy):
+    """
+    The function get the month from number to ukrainian word(Genitive)
+    :param dmy: the list of dmy
+    :return: month in dmy(ua) - 1 element
+    """
+    for i in xrange(len(dmy)):
+        month = dmy[i][1]
+        for key in months.keys():
+            if key == month:
+                month = months[key] + " "
+            else:
+                pass
+        dmy[i][1] = month
+    return dmy
+
+
+def get_year(dmy):
+    """
+    The function get the year from number to ukrainian word(Genitive)
+    :param dmy: the list of dmy
+    :return: year in dmy(ua) - 2 element
+    """
+    for i in xrange(len(dmy)):
+        year = dmy[i][2]
+        for key in years.keys():
+            if key == year:
+                year = years[key] + " "
+            else:
+                pass
+            dmy[i][2] = year
+    return dmy
+
+
+def get_result_date(list_date):
+    """
+    The function get the string = result of ua-dmy (day month year)
+    :param list_date: the list of dmy
+    :return: result string of dmy
+    """
+    result = ""
+    for item in xrange(len(list_date)):
+            result += ' '.join(list_date[item]) + "; "
+    return result
+
+
+date_line = findall_date(date_file)
+date_line = split_date(date_line)
+date_line = get_day(date_line)
+date_line = get_month(date_line)
+date_line = get_year(date_line)
+result_date = get_result_date(date_line)
+
+date_line_form = findall_date(date_form)
+date_line_form = split_date(date_line_form)
+date_line_form = get_day_form(date_line_form)
+date_line_form = get_month(date_line_form)
+date_line_form = get_year(date_line_form)
+result_form_date = get_result_date(date_line_form)
+
+# Write to file out_file the full result of dates
+with open(out_file, 'w') as save_file:
+    line = save_file.writelines(result_date + result_form_date)
